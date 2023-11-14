@@ -1,0 +1,59 @@
+Create MYSQL User:
+CREATE USER 'root'@'localhost' IDENTIFIED BY 'root'
+
+Grant Privileges on Database for User:
+GRANT ALL PRIVILEGES ON mydb.* TO 'root'@'localhost' IDENTIFIED BY 'root'
+FLUSH PRIVILEGES
+
+Create Database:
+create database mydb
+
+Use Database:
+use mydb
+
+Create Table User:
+CREATE TABLE user ("UserID" int NOT NULL AUTO_INCREMENT, "FirstName" varchar(50) NOT NULL, "LastName" varchar(50) NOT NULL, "UserName" varchar(50) NOT NULL, "Password" varchar(50) NULL, PRIMARY KEY ("UserID"))
+
+Create Table Task:
+CREATE TABLE task ( "TaskID" int NOT NULL AUTO_INCREMENT, "Title" varchar(50) NOT NULL, "Description" varchar(200) NOT NULL, "Status" varchar(50) NOT NULL, "Priority" varchar(50) NOT NULL, "Date" date NOT NULL, "UserID" int NOT NULL, PRIMARY KEY ("TaskID"), KEY "FOREIGNKEY" ("UserID"), CONSTRAINT "FOREIGNKEY" FOREIGN KEY ("UserID") REFERENCES "user" ("UserID"))
+
+Insert Values into Task:
+insert into task(Title,Description,Status,Priority,Date,UserID) values ("title", "description", "status", "priority", "date", "userid")
+
+Insert Values into User:
+insert into user(FirstName,LastName,UserName,Password) values ("firstname", "lastname", "username", "password")
+
+Delete Task based on Task ID:
+delete from task where TaskID = taskid
+
+Update Task based on Task ID:
+update task set Title = "title", Description = "description", Status = "status", Priority = "priority", Date = "date" where TaskID = taskid
+
+To fetch the User ID based on User Name
+select UserID from user where UserName = "username"
+
+To fetch the records based on User Name and Password:
+select * from user where UserName = "username" and Password = "password"
+
+To fetch the records based on User Name:
+select * from user where UserName = "username"
+
+To fetch the tasks based on User ID:
+select TaskID, Title,Description,Status,Priority,Date from task where UserID = userid order by Date asc
+
+To fetch the task based on Task ID:
+select Title,Description,Status,Priority,Date from task where TaskID = taskid
+
+To fetch the tasks based on Input Date and User ID:
+select TaskID, Title,Description,Status,Priority,Date from task where Date = input_date and UserID = userid
+
+To fetch the tasks of a week based on Input Date and User ID:
+select TaskID, Title,Description,Status,Priority,Date from task where Date between (input_date - timedelta(days=input_date.weekday()))  and ((input_date -timedelta(days=input_date.weekday())) + timedelta(days=6))  and UserID = userid order by Date asc
+
+To fetch the tasks of a month based on Input Date and User ID:
+select TaskID, Title,Description,Status,Priority,Date from task where MONTH(Date) = MONTH(input_date) and YEAR(Date) = YEAR(input_date) and UserID = userid order by Date asc
+
+To fetch the tasks of a year based on Input Date and User ID:
+select TaskID, Title,Description,Status,Priority,Date from task where YEAR(Date) = YEAR(input_date) and UserID = userid order by Date asc
+
+
